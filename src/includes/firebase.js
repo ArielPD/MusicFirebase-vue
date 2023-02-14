@@ -55,6 +55,7 @@ const usersCollection = collection(db, "users");
 const storage = getStorage(app);
 //const storageRefSongs = ref(storage, "songs");
 const songsCollection = collection(db, "songs");
+const commentsCollection = collection(db, "comments");
 
 export {
   auth,
@@ -85,6 +86,7 @@ export {
   orderBy,
   limit,
   startAfter,
+  commentsCollection,
 };
 
 //import firebase from "firebase/app";

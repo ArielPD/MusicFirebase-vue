@@ -35,6 +35,7 @@ export default defineStore("user", {
         email: values.email,
         age: values.age,
         country: values.country,
+        displayName: values.name,
       });
 
       await updateProfile(auth.currentUser, {
