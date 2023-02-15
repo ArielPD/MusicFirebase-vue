@@ -116,19 +116,18 @@ export default {
       comment_variant: "bg-blue-500",
       comment_alert_message: "Please wait! Your comment is being ubmitted.",
       comments: [],
-      sort: '1',
+      sort: "1",
     };
   },
   computed: {
     ...mapState(useUserStore, ["userLoggedIn"]),
     sortedComments() {
       return this.comments.slice().sort((a, b) => {
-        if(this.sort === '1') {
+        if (this.sort === "1") {
           return new Date(b.datePosted) - new Date(a.datePosted);
-        } 
+        }
 
         return new Date(a.datePosted) - new Date(b.datePosted);
-
       });
     },
   },
@@ -140,6 +139,10 @@ export default {
       this.$router.push({ name: "home" });
       return;
     }
+
+    const { sort } = this.$route.query;
+
+    this.sort = sort === "1" || sort === "2" ? sort : "1";
 
     this.song = docSnapshot.data();
 
@@ -189,6 +192,18 @@ export default {
             ...document.data(),
           });
         });
+      });
+    },
+  },
+  watch: {
+    sort(newVal) {
+      if (newVal === this.$route.query.sort) {
+        return;
+      }
+      this.$router.push({
+        query: {
+          sort: newVal,
+        },
       });
     },
   },
