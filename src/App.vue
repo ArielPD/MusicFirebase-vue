@@ -2,6 +2,7 @@
   <AppHeader />
   <router-view></router-view>
   <AppPlayer />
+  <Auth />
 </template>
 
 <script>
