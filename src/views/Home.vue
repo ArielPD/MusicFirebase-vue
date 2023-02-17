@@ -26,11 +26,14 @@
   <!-- Main Content -->
   <section class="container mx-auto">
     <div class="bg-white rounded border border-gray-200 relative flex flex-col">
-      <div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200" 
-        v-icon.right.yellow="'headphones-alt'">
+      <!--<div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200" 
+        v-icon.right.yellow="'headphones-alt'">-->
+      <div
+        class="px-6 pt-6 pb-5 font-bold border-b border-gray-200"
+        v-icon-secondary="{ icon: 'headphones-alt', right: true }"
+      >
         <span class="card-title">Songs</span>
         <!-- Icon -->
-        
       </div>
       <!-- Playlist -->
       <ol id="playlist">
@@ -50,11 +53,15 @@ import {
   startAfter,
 } from "@/includes/firebase";
 import AppSongItem from "@/components/SongItem.vue";
+import IconSecondary from "@/directives/icon-secondary";
 
 export default {
   name: "Home",
   components: {
     AppSongItem,
+  },
+  directives: {
+    "icon-secondary": IconSecondary,
   },
   data() {
     return {
@@ -105,25 +112,35 @@ export default {
           .limit(this.maxPerPage)
           .get();*/
 
-
         // Query the first page of docs
-        const first = query(songsCollection, orderBy("modified_name"), limit(this.maxPerPage));
+        const first = query(
+          songsCollection,
+          orderBy("modified_name"),
+          limit(this.maxPerPage)
+        );
         const documentSnapshots = await getDocs(first);
 
-
         // Get the last visible document
-        const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+        const lastVisible =
+          documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
-
-        const querySongs = query(songsCollection, orderBy("modified_name"), startAfter(lastVisible), limit(this.maxPerPage));
+        const querySongs = query(
+          songsCollection,
+          orderBy("modified_name"),
+          startAfter(lastVisible),
+          limit(this.maxPerPage)
+        );
         snapshots = await getDocs(querySongs);
-
       } else {
         /*snapshots = await getDocs(songsCollection)
           .orderBy("modified_name")
           .limit(this.maxPerPage)
           .get();*/
-        const querySongs = query(songsCollection, orderBy("modified_name"), limit(this.maxPerPage));
+        const querySongs = query(
+          songsCollection,
+          orderBy("modified_name"),
+          limit(this.maxPerPage)
+        );
         snapshots = await getDocs(querySongs);
 
         //console.log("snapshots");
