@@ -4,6 +4,9 @@
     },
     "song": {
         "comment_count": "No comments | 1 comment | {count} comments"
+    },
+    "manage": {
+        "my_songs": "Mes chansons"
     }
     
 }
