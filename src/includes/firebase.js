@@ -15,6 +15,7 @@ import {
   orderBy,
   limit,
   startAfter,
+  enableIndexedDbPersistence,
 } from "firebase/firestore";
 import {
   getAuth,
@@ -49,6 +50,23 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 //const auth = getAuth(app);
 const auth = getAuth();
+
+/*db.enablePersistence().catch((error) => {
+  console.log(`Firebase peristence error ${error.code}`);
+});*/
+
+enableIndexedDbPersistence(db)
+  .catch((err) => {
+      if (err.code == 'failed-precondition') {
+          // Multiple tabs open, persistence can only be enabled
+          // in one tab at a a time.
+      } else if (err.code == 'unimplemented') {
+          // The current browser does not support all of the
+          // features required to enable persistence
+      }
+  });
+
+
 //const usersCollection = db.collection('users');
 const usersCollection = collection(db, "users");
 

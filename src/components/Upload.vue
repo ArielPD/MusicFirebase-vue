@@ -72,7 +72,7 @@ import {
 
 export default {
   name: "Upload",
-  props: ['addSong'],
+  props: ["addSong"],
   data() {
     return {
       is_dragover: false,
@@ -91,6 +91,18 @@ export default {
         /*if (file.type !== "audio/mpeg") {
           return;
         }*/
+
+        if (!navigator.online) {
+          this.uploads.push({
+            uploadTaskL: {},
+            current_progess: 100,
+            name: file.name,
+            variant: "bg-red-400",
+            icon: "fas fa-times",
+            text_class: "text-red-400",
+          });
+          return;
+        }
 
         //const storageRef = storage.ref();
         //const songsRef = storageRef.child(`songs/${file.name}`);
