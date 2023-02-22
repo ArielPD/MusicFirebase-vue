@@ -137,11 +137,27 @@ export default {
       });
     },
   },
-  async created() {
+  async beforeRouteEnter(to, from, next) {
     //const docSnapshot = await songsCollection.doc(this.$route.params.id).get();
-    const docSnapshot = await getDoc(doc(db, "songs", this.$route.params.id));
+    //const docSnapshot = await getDoc(doc(db, "songs", this.$route.params.id));
+    const docSnapshot = await getDoc(doc(db, "songs", to.params.id));
 
-    if (!docSnapshot.exists()) {
+    next((vm) => {
+      if (!docSnapshot.exists()) {
+        vm.$router.push({ name: "home" });
+        return;
+      }
+
+      const { sort } = vm.$route.query;
+
+      vm.sort = sort === "1" || sort === "2" ? sort : "1";
+
+      vm.song = docSnapshot.data();
+
+      vm.getComments();
+    })
+
+    /*if (!docSnapshot.exists()) {
       this.$router.push({ name: "home" });
       return;
     }
@@ -152,7 +168,7 @@ export default {
 
     this.song = docSnapshot.data();
 
-    this.getComments();
+    this.getComments();*/
   },
   methods: {
     ...mapActions(usePlayerStore, ["newSong"]),
